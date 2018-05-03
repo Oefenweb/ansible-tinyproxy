@@ -1,0 +1,7 @@
+# test file for tinyproxy
+---
+- hosts: localhost
+  connection: local
+  become: true
+  roles:
+    - ../../
