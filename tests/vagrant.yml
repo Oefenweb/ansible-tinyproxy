@@ -1,0 +1,12 @@
+# test file for tinyproxy
+---
+- hosts: all
+  remote_user: vagrant
+  become: true
+  roles:
+    - ../../
+  vars:
+    tinyproxy_port: 3128
+    tinyproxy_allow:
+      - "{{ ansible_lo['ipv4']['address'] }}"
+      - "{{ ansible_default_ipv4['address'] }}"

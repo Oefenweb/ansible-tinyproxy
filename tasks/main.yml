@@ -1,0 +1,47 @@
+# tasks file for tinyproxy
+---
+- name: include variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "_{{ ansible_distribution_release }}.yml"
+    - "_{{ ansible_distribution | lower }}.yml"
+    - _default.yml
+  tags:
+    - configuration
+    - tinyproxy
+    - tinyproxy-include-variables
+
+- name: install dependencies
+  apt:
+    name: "{{ item }}"
+    state: "{{ apt_install_state | default('latest') }}"
+    update_cache: true
+    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+  with_items: "{{ tinyproxy_dependencies }}"
+  tags:
+    - configuration
+    - tinyproxy
+    - tinyproxy-dependencies
+
+- name: install additional
+  apt:
+    name: "{{ item }}"
+    state: "{{ apt_install_state | default('latest') }}"
+  with_items: "{{ tinyproxy_install }}"
+  tags:
+    - configuration
+    - tinyproxy
+    - tinyproxy-install
+
+- name: update configuration file
+  template:
+    src: etc/tinyproxy.conf.j2
+    dest: "{{ tinyproxy_configuration_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart tinyproxy
+  tags:
+    - configuration
+    - tinyproxy
+    - tinyproxy-configuration

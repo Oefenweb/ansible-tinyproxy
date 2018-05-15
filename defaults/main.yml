@@ -1,0 +1,12 @@
+# defaults file for tinyproxy
+---
+tinyproxy_install: []
+
+tinyproxy_tinyproxy_conf: "{{ tinyproxy_tinyproxy_conf_preset }}"
+
+tinyproxy_port: 8888
+tinyproxy_allow:
+  - "{{ ansible_lo['ipv4']['address'] }}"
+tinyproxy_connect_port:
+  - 443
+  - 563
