@@ -2,10 +2,3 @@
 ---
 tinyproxy_dependencies:
   - tinyproxy
-
-tinyproxy_configuration_file: >
-  {% if ansible_distribution == 'Debian' and ansible_distribution_version | version_compare('9', '>=') %}
-  /etc/tinyproxy/tinyproxy.conf
-  {% else %}
-  /etc/tinyproxy.conf
-  {% endif %}

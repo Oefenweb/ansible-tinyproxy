@@ -2,34 +2,7 @@
 ---
 tinyproxy_install: []
 
-tinyproxy_tinyproxy_conf:
-  - |
-    {% if ansible_distribution == 'Debian' and ansible_distribution_version | version_compare('9', '>=') %}
-    User tinyproxy
-    Group tinyproxy
-    {% else %}
-    User nobody
-    Group nogroup
-    {% endif %}
-    Port {{ tinyproxy_port }}
-    Timeout 600
-    DefaultErrorFile "/usr/share/tinyproxy/default.html"
-    StatFile "/usr/share/tinyproxy/stats.html"
-    Logfile "/var/log/tinyproxy/tinyproxy.log"
-    LogLevel Info
-    PidFile "/run/tinyproxy/tinyproxy.pid"
-    MaxClients 100
-    MinSpareServers 5
-    MaxSpareServers 20
-    StartServers 10
-    MaxRequestsPerChild 0
-    {% for allow in tinyproxy_allow %}
-    Allow {{ allow }}
-    {% endfor %}
-    ViaProxyName "tinyproxy"
-    {% for connect_port in tinyproxy_connect_port %}
-    ConnectPort {{ connect_port }}
-    {% endfor %}
+tinyproxy_tinyproxy_conf: "{{ tinyproxy_tinyproxy_conf_preset }}"
 
 tinyproxy_port: 8888
 tinyproxy_allow:
