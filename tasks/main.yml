@@ -1,5 +1,16 @@
 # tasks file for tinyproxy
 ---
+- name: include variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "_{{ ansible_distribution_release }}.yml"
+    - "_{{ ansible_distribution | lower }}.yml"
+    - _default.yml
+  tags:
+    - configuration
+    - tinyproxy
+    - tinyproxy-include-variables
+
 - name: install dependencies
   apt:
     name: "{{ item }}"
@@ -25,7 +36,7 @@
 - name: update configuration file
   template:
     src: etc/tinyproxy.conf.j2
-    dest: /etc/tinyproxy.conf
+    dest: "{{ tinyproxy_configuration_file }}"
     owner: root
     group: root
     mode: 0644

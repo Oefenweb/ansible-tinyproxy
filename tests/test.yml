@@ -5,3 +5,9 @@
   become: true
   roles:
     - ../../
+  vars:
+    tinyproxy_tinyproxy_conf:
+      - |
+        User nobody
+        Group nogroup
+        Port {{ tinyproxy_port }}
