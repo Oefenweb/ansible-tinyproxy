@@ -22,7 +22,7 @@
     - tinyproxy
     - tinyproxy-install
 
-- name: update configuration file - /etc/tinyproxy/tinyproxy.conf
+- name: update configuration file
   template:
     src: etc/tinyproxy.conf.j2
     dest: /etc/tinyproxy.conf
