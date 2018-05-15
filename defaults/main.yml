@@ -1,0 +1,10 @@
+# defaults file for tinyproxy
+---
+tinyproxy_install: []
+
+tinyproxy_local: []
+tinyproxy_path: []
+
+tinyproxy_server: 127.0.0.1
+tinyproxy_server_type: 5
+tinyproxy_server_port: 1080

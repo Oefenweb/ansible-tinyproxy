@@ -1,0 +1,36 @@
+# tasks file for tinyproxy
+---
+- name: install dependencies
+  apt:
+    name: "{{ item }}"
+    state: "{{ apt_install_state | default('latest') }}"
+    update_cache: true
+    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+  with_items: "{{ tinyproxy_dependencies }}"
+  tags:
+    - configuration
+    - tinyproxy
+    - tinyproxy-dependencies
+
+- name: install additional
+  apt:
+    name: "{{ item }}"
+    state: "{{ apt_install_state | default('latest') }}"
+  with_items: "{{ tinyproxy_install }}"
+  tags:
+    - configuration
+    - tinyproxy
+    - tinyproxy-install
+
+- name: update configuration file - /etc/tinyproxy/tinyproxy.conf
+  template:
+    src: etc/tinyproxy.conf.j2
+    dest: /etc/tinyproxy.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart tinyproxy
+  tags:
+    - configuration
+    - tinyproxy
+    - tinyproxy-configuration
