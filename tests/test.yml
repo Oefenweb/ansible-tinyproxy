@@ -5,6 +5,8 @@
   become: true
   roles:
     - ../../
+  post_tasks:
+    - include: post.yml
   vars:
     tinyproxy_tinyproxy_conf:
       - |
@@ -31,5 +33,4 @@
         {% endfor %}
     tinyproxy_port: 3128
     tinyproxy_allow:
-      - "{{ ansible_lo['ipv4']['address'] }}"
-      - "{{ ansible_default_ipv4['address'] }}"
+      - 127.0.0.1
