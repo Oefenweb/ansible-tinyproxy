@@ -10,7 +10,7 @@
     - curl
 
 - name: post | test installation
-  command: curl -s --head https://www.google.nl --proxy https://127.0.0.1:3128
+  command: curl -s --head https://www.google.com --proxy http://127.0.0.1:3128
   register: _result
   changed_when: false
-  failed_when: _result.stdout.find('200 OK') == -1
+  failed_when: _result.stdout.find('HTTP/1.0 200') == -1
