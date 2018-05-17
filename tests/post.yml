@@ -1,0 +1,16 @@
+# post test file for tinyproxy
+---
+- name: post | install dependencies
+  apt:
+    name: "{{ item }}"
+    state: "{{ apt_install_state | default('latest') }}"
+    update_cache: true
+    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+  with_items:
+    - curl
+
+- name: post | test installation
+  command: curl -s --head https://www.google.com --proxy http://127.0.0.1:3128
+  register: _result
+  changed_when: false
+  failed_when: _result.stdout.find('HTTP/1.0 200') == -1
