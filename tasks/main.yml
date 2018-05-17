@@ -45,3 +45,13 @@
     - configuration
     - tinyproxy
     - tinyproxy-configuration
+
+- name: start and enable service
+  service:
+    name: tinyproxy
+    state: "{{ service_default_state | default('started') }}"
+    enabled: "{{ service_default_enabled | default(true) | bool }}"
+  tags:
+    - configuration
+    - tinyproxy
+    - tinyproxy-start-enable-service
