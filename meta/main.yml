@@ -1,6 +1,7 @@
 # meta file for tinyproxy
 ---
 galaxy_info:
+  role_name: tinyproxy
   author: Mischa ter Smitten
   company: Oefenweb.nl B.V.
   description: Set up tinyproxy in Debian-like systems
@@ -11,6 +12,7 @@ galaxy_info:
       versions:
         - trusty
         - xenial
+        - bionic
     - name: Debian
       versions:
         - jessie

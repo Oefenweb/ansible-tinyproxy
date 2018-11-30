@@ -1,0 +1,27 @@
+# vars file for tinyproxy
+---
+tinyproxy_configuration_file: /etc/tinyproxy/tinyproxy.conf
+
+tinyproxy_tinyproxy_conf_preset:
+  - |
+    User tinyproxy
+    Group tinyproxy
+    Port {{ tinyproxy_port }}
+    Timeout 600
+    DefaultErrorFile "/usr/share/tinyproxy/default.html"
+    StatFile "/usr/share/tinyproxy/stats.html"
+    Logfile "/var/log/tinyproxy/tinyproxy.log"
+    LogLevel Info
+    PidFile "/run/tinyproxy/tinyproxy.pid"
+    MaxClients 100
+    MinSpareServers 5
+    MaxSpareServers 20
+    StartServers 10
+    MaxRequestsPerChild 0
+    {% for allow in tinyproxy_allow %}
+    Allow {{ allow }}
+    {% endfor %}
+    ViaProxyName "tinyproxy"
+    {% for connect_port in tinyproxy_connect_port %}
+    ConnectPort {{ connect_port }}
+    {% endfor %}
