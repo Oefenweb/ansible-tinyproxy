@@ -1,22 +1,41 @@
 # tasks file for tinyproxy
 ---
-- name: include variables
-  include_vars: "{{ item }}"
-  with_first_found:
-    - "_{{ ansible_distribution_release }}.yml"
-    - "_{{ ansible_distribution | lower }}.yml"
-    - _default.yml
-  tags:
-    - configuration
-    - tinyproxy
-    - tinyproxy-include-variables
 
-- name: install dependencies
-  apt:
+# - name: include variables
+#   include_vars: "{{ item }}"
+#   with_first_found:
+#     - "_{{ ansible_os_family }}.yml"
+#     - "_{{ ansible_distribution_release }}.yml"
+#     - "_{{ ansible_distribution | lower }}.yml"
+#     - _default.yml
+#   tags:
+#     - configuration
+#     - tinyproxy
+#     - tinyproxy-include-variables
+
+- name: Set fact for Debian
+  set_fact:
+    tinyproxy_configuration_file: /etc/tinyproxy.conf
+    proxy_user: nobody
+    proxy_group: nogroup
+  when: 
+    - ansible_distribution == "Ubuntu" 
+    - ansible_distribution_major_version == "16"
+
+- name: RedHat | Install the latest version of Tinyproxy
+  yum:
     name: "{{ tinyproxy_dependencies }}"
-    state: "{{ apt_install_state | default('latest') }}"
-    update_cache: true
-    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+    state: "{{ package_install_state | default('latest') }}"
+    enablerepo: epel
+  when: 
+    - ansible_os_family == 'RedHat'
+
+- name: Debian | Install the latest version of Tinyproxy
+  package:
+    name: "{{ tinyproxy_dependencies }}"
+    state: "{{ package_install_state | default('latest') }}"
+  when: 
+    - ansible_os_family == 'Debian'
   tags:
     - configuration
     - tinyproxy
@@ -25,7 +44,9 @@
 - name: install additional
   apt:
     name: "{{ tinyproxy_install }}"
-    state: "{{ apt_install_state | default('latest') }}"
+    state: "{{ package_install_state | default('latest') }}"
+  when: 
+    - ansible_os_family == 'Debian'
   tags:
     - configuration
     - tinyproxy

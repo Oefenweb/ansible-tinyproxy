@@ -1,4 +1,0 @@
-# vars file for tinyproxy
----
-tinyproxy_dependencies:
-  - tinyproxy

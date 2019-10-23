@@ -2,6 +2,11 @@
 ---
 tinyproxy_install: []
 
+proxy_user: tinyproxy
+proxy_group: tinyproxy
+
+tinyproxy_configuration_file: /etc/tinyproxy/tinyproxy.conf
+
 tinyproxy_tinyproxy_conf: "{{ tinyproxy_tinyproxy_conf_preset }}"
 
 tinyproxy_port: 8888
@@ -10,3 +15,30 @@ tinyproxy_allow:
 tinyproxy_connect_port:
   - 443
   - 563
+
+tinyproxy_dependencies:
+  - tinyproxy
+
+tinyproxy_tinyproxy_conf_preset:
+  - |
+    User {{ proxy_user }}
+    Group {{ proxy_group }}
+    Port {{ tinyproxy_port }}
+    Timeout 600
+    DefaultErrorFile "/usr/share/tinyproxy/default.html"
+    StatFile "/usr/share/tinyproxy/stats.html"
+    Logfile "/var/log/tinyproxy/tinyproxy.log"
+    LogLevel Info
+    PidFile "/run/tinyproxy/tinyproxy.pid"
+    MaxClients 100
+    MinSpareServers 5
+    MaxSpareServers 20
+    StartServers 10
+    MaxRequestsPerChild 0
+    {% for allow in tinyproxy_allow %}
+    Allow {{ allow }}
+    {% endfor %}
+    ViaProxyName "tinyproxy"
+    {% for connect_port in tinyproxy_connect_port %}
+    ConnectPort {{ connect_port }}
+    {% endfor %}
