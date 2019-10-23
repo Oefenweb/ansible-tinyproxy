@@ -18,7 +18,7 @@
     - never
 
 - name: include OS specific tasks
-  include_tasks: "{{ansible_os_family}}.yml"
+  include_tasks: "{{ ansible_os_family }}.yml"
 
 
 - name: update configuration file

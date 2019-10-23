@@ -3,15 +3,15 @@
 - name: Set fact for CentOS 7
   set_fact:
     gpgkey: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
-  when: 
-    - ansible_distribution == "CentOS" 
+  when:
+    - ansible_distribution == "CentOS"
     - ansible_distribution_major_version == "7"
 
 - name: Set fact for CentOS 8
   set_fact:
     gpgkey: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8
-  when: 
-    - ansible_distribution == "CentOS" 
+  when:
+    - ansible_distribution == "CentOS"
     - ansible_distribution_major_version == "8"
 
 - name: RedHat | Install epel-release
@@ -20,13 +20,12 @@
     description: EPEL YUM repo
     baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
     gpgkey: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
-  when: 
+  when:
     - ansible_os_family == 'RedHat'
 
 - name: RedHat | Install the latest version of Tinyproxy
   yum:
     name: "{{ tinyproxy_dependencies }}"
     state: "{{ package_install_state | default('latest') }}"
-  when: 
+  when:
     - ansible_os_family == 'RedHat'
-
