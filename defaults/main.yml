@@ -29,7 +29,7 @@ tinyproxy_tinyproxy_conf_preset:
     StatFile "/usr/share/tinyproxy/stats.html"
     Logfile "/var/log/tinyproxy/tinyproxy.log"
     LogLevel Info
-    PidFile "/run/tinyproxy/tinyproxy.pid"
+    PidFile "{{ pidfile | default("/run/tinyproxy/tinyproxy.pid") }}"
     MaxClients 100
     MinSpareServers 5
     MaxSpareServers 20

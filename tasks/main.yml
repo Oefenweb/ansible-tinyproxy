@@ -1,56 +1,25 @@
 # tasks file for tinyproxy
 ---
 
-# - name: include variables
-#   include_vars: "{{ item }}"
-#   with_first_found:
-#     - "_{{ ansible_os_family }}.yml"
-#     - "_{{ ansible_distribution_release }}.yml"
-#     - "_{{ ansible_distribution | lower }}.yml"
-#     - _default.yml
-#   tags:
-#     - configuration
-#     - tinyproxy
-#     - tinyproxy-include-variables
-
-- name: Set fact for Debian
-  set_fact:
-    tinyproxy_configuration_file: /etc/tinyproxy.conf
-    proxy_user: nobody
-    proxy_group: nogroup
-  when: 
-    - ansible_distribution == "Ubuntu" 
-    - ansible_distribution_major_version == "16"
-
-- name: RedHat | Install the latest version of Tinyproxy
-  yum:
-    name: "{{ tinyproxy_dependencies }}"
-    state: "{{ package_install_state | default('latest') }}"
-    enablerepo: epel
-  when: 
-    - ansible_os_family == 'RedHat'
-
-- name: Debian | Install the latest version of Tinyproxy
-  package:
-    name: "{{ tinyproxy_dependencies }}"
-    state: "{{ package_install_state | default('latest') }}"
-  when: 
-    - ansible_os_family == 'Debian'
+- debug:
+    msg: "{{ hostvars[inventory_hostname].ansible_distribution }}"
   tags:
-    - configuration
-    - tinyproxy
-    - tinyproxy-dependencies
-
-- name: install additional
-  apt:
-    name: "{{ tinyproxy_install }}"
-    state: "{{ package_install_state | default('latest') }}"
-  when: 
-    - ansible_os_family == 'Debian'
+    - debug
+    - never
+- debug:
+    msg: "{{ hostvars[inventory_hostname].ansible_distribution_major_version }}"
   tags:
-    - configuration
-    - tinyproxy
-    - tinyproxy-install
+    - debug
+    - never
+- debug:
+    msg: "{{ hostvars[inventory_hostname].ansible_distribution_version }}"
+  tags:
+    - debug
+    - never
+
+- name: include OS specific tasks
+  include_tasks: "{{ansible_os_family}}.yml"
+
 
 - name: update configuration file
   template:

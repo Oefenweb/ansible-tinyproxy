@@ -1,0 +1,44 @@
+---
+
+# Tasks for Ubuntu
+
+- name: Set facts for Ubuntu 16 and Debian 8
+  set_fact:
+    tinyproxy_configuration_file: /etc/tinyproxy.conf
+    proxy_user: nobody
+    proxy_group: nogroup
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16") or
+        (ansible_distribution == "Debian" and ansible_distribution_major_version == "8") 
+
+- name: Set facts for Ubuntu 18 and Debian 9
+  set_fact:
+    tinyproxy_configuration_file: /etc/tinyproxy/tinyproxy.conf
+    proxy_user: tinyproxy
+    proxy_group: tinyproxy
+    pidfile: /var/run/tinyproxy/tinyproxy.pid
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18") or
+        (ansible_distribution == "Debian" and ansible_distribution_major_version == "9") 
+
+
+- name: Debian | Install the latest version of Tinyproxy
+  package:
+    name: "{{ tinyproxy_dependencies }}"
+    state: "{{ package_install_state | default('latest') }}"
+  when: 
+    - ansible_os_family == 'Debian'
+  tags:
+    - configuration
+    - tinyproxy
+    - tinyproxy-dependencies
+
+- name: install additional
+  apt:
+    name: "{{ tinyproxy_install }}"
+    state: "{{ package_install_state | default('latest') }}"
+  when: 
+    - ansible_os_family == 'Debian'
+  tags:
+    - configuration
+    - tinyproxy
+    - tinyproxy-install
+
