@@ -23,22 +23,30 @@ boxes = [
     :box => "bento/ubuntu-18.04",
     :ip => '10.0.0.14',
     :cpu => "50",
-    :ram => "256"
+    :ram => "512"
   },
   {
     :name => "debian-8",
     :box => "bento/debian-8",
-    :ip => '10.0.0.16',
+    :ip => '10.0.0.15',
     :cpu => "50",
-    :ram => "256"
+    :ram => "512"
   },
   {
     :name => "debian-9",
     :box => "bento/debian-9",
-    :ip => '10.0.0.17',
+    :ip => '10.0.0.16',
     :cpu => "50",
-    :ram => "256"
+    :ram => "512"
   },
+  {
+    :name => "centos-7",
+    :box => "centos/7",
+    :ip => '10.0.0.18',
+    :cpu => "80",
+    :ram => "1024"
+  }
+
 ]
 
 Vagrant.configure("2") do |config|

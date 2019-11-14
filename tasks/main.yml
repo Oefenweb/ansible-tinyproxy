@@ -1,35 +1,25 @@
 # tasks file for tinyproxy
 ---
-- name: include variables
-  include_vars: "{{ item }}"
-  with_first_found:
-    - "_{{ ansible_distribution_release }}.yml"
-    - "_{{ ansible_distribution | lower }}.yml"
-    - _default.yml
-  tags:
-    - configuration
-    - tinyproxy
-    - tinyproxy-include-variables
 
-- name: install dependencies
-  apt:
-    name: "{{ tinyproxy_dependencies }}"
-    state: "{{ apt_install_state | default('latest') }}"
-    update_cache: true
-    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+- debug:
+    msg: "{{ hostvars[inventory_hostname].ansible_distribution }}"
   tags:
-    - configuration
-    - tinyproxy
-    - tinyproxy-dependencies
+    - debug
+    - never
+- debug:
+    msg: "{{ hostvars[inventory_hostname].ansible_distribution_major_version }}"
+  tags:
+    - debug
+    - never
+- debug:
+    msg: "{{ hostvars[inventory_hostname].ansible_distribution_version }}"
+  tags:
+    - debug
+    - never
 
-- name: install additional
-  apt:
-    name: "{{ tinyproxy_install }}"
-    state: "{{ apt_install_state | default('latest') }}"
-  tags:
-    - configuration
-    - tinyproxy
-    - tinyproxy-install
+- name: include OS specific tasks
+  include_tasks: "{{ ansible_os_family }}.yml"
+
 
 - name: update configuration file
   template:
