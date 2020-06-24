@@ -11,10 +11,10 @@ RUN rm -rf $HOME/.cache
 # ansible
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y gcc libffi-dev libssl-dev && \
   apt-get clean
-RUN pip install ansible==2.6.2
+RUN pip install ansible==2.9.10
 RUN rm -rf $HOME/.cache
 
 # provision
 COPY . /etc/ansible/roles/ansible-role
 WORKDIR /etc/ansible/roles/ansible-role
-RUN ansible-playbook -i tests/inventory tests/test.yml --connection=local
+RUN ansible-playbook -i tests/inventory tests/test.yml --connection=local -vv
