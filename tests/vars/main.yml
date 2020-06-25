@@ -1,0 +1,6 @@
+# vars file for tinyproxy
+---
+tinyproxy_port: 3128
+tinyproxy_allow:
+  - "{{ ansible_lo['ipv4']['address'] }}"
+  - "{{ ansible_default_ipv4['address'] }}"

@@ -3,12 +3,10 @@
 - hosts: all
   remote_user: vagrant
   become: true
+  pre_tasks:
+    - name: include vars
+      include_vars: main.yml
   roles:
     - ../../
   post_tasks:
     - include: post.yml
-  vars:
-    tinyproxy_port: 3128
-    tinyproxy_allow:
-      - "{{ ansible_lo['ipv4']['address'] }}"
-      - "{{ ansible_default_ipv4['address'] }}"

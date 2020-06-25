@@ -3,6 +3,9 @@
 - hosts: localhost
   connection: local
   become: true
+  pre_tasks:
+    - name: include vars
+      include_vars: main.yml
   roles:
     - ../../
   post_tasks:
@@ -31,6 +34,3 @@
         {% for connect_port in tinyproxy_connect_port %}
         ConnectPort {{ connect_port }}
         {% endfor %}
-    tinyproxy_port: 3128
-    tinyproxy_allow:
-      - 127.0.0.1
