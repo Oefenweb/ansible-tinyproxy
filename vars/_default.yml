@@ -1,27 +1,45 @@
 # vars file for tinyproxy
 ---
-tinyproxy_configuration_file: /etc/tinyproxy.conf
+tinyproxy_configuration_file: /etc/tinyproxy/tinyproxy.conf
 
 tinyproxy_tinyproxy_conf_preset:
   - |
-    User nobody
-    Group nogroup
+    User tinyproxy
+    Group tinyproxy
     Port {{ tinyproxy_port }}
-    Timeout 600
+    Timeout {{ tinyproxy_timeout }}
     DefaultErrorFile "/usr/share/tinyproxy/default.html"
     StatFile "/usr/share/tinyproxy/stats.html"
     Logfile "/var/log/tinyproxy/tinyproxy.log"
-    LogLevel Info
-    PidFile "/var/run/tinyproxy/tinyproxy.pid"
-    MaxClients 100
-    MinSpareServers 5
-    MaxSpareServers 20
-    StartServers 10
-    MaxRequestsPerChild 0
+    LogLevel {{ tinyproxy_loglevel }}
+    PidFile "/run/tinyproxy/tinyproxy.pid"
+    MaxClients {{ tinyproxy_maxclients | default("100")}}
+    MinSpareServers {{ tinyproxy_minspare_servers | default("5") }}
+    MaxSpareServers {{ tinyproxy_maxspare_servers | default("20") }}
+    StartServers {{ tinyproxy_startservers | default("15") }}
+    MaxRequestsPerChild {{ tinyproxy_maxrequest | default("0") }}
     {% for allow in tinyproxy_allow %}
     Allow {{ allow }}
     {% endfor %}
-    ViaProxyName "tinyproxy"
+    ViaProxyName {{ tinyproxy_viaproxyname | default("tinyproxy") }}
+    DisableViaHeader {{ tinyproxy_viaheader | default("False") }}
     {% for connect_port in tinyproxy_connect_port %}
     ConnectPort {{ connect_port }}
     {% endfor %}
+
+    Listen {{ tinyproxy_listen_addr | default(local_ip_v4) }}
+    Bind {{ tinyproxy_bind_addr | default(ip_v4) }}
+
+    {% if tinyproxy_filtering is defined %}
+    Filter {{ tinyproxy_filtering.filter }}
+    FilterURLs {{ tinyproxy_filtering.urls }}
+    FilterExtended {{ tinyproxy_filtering.extended }}
+    FilterCaseSensitive {{ tinyproxy_filtering.case_sensitive }}
+    FilterDefaultDeny {{ tinyproxy_filtering.default_deny }}
+    {% endif %}
+
+    {% if tinyproxy_upstream_proxies is defined %}
+      {% for proxy in tinyproxy_upstream_proxies %}
+    Upstream {{ proxy.address }} {% if proxy.url is defined %} {{ proxy.url }} {% endif %}
+      {% endfor %}
+    {% endif %}
