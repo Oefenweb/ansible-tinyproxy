@@ -22,7 +22,7 @@ tinyproxy_tinyproxy_conf_preset:
     Allow {{ allow }}
     {% endfor %}
     ViaProxyName {{ tinyproxy_viaproxyname | default('"tinyproxy"') }}
-    DisableViaHeader {{ tinyproxy_viaheader | default("No") }}
+    DisableViaHeader {{ tinyproxy_hide_viaheader | default("No") }}
     {% for connect_port in tinyproxy_connect_port %}
     ConnectPort {{ connect_port }}
     {% endfor %}

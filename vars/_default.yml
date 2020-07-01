@@ -21,25 +21,25 @@ tinyproxy_tinyproxy_conf_preset:
     {% for allow in tinyproxy_allow %}
     Allow {{ allow }}
     {% endfor %}
-    ViaProxyName {{ tinyproxy_viaproxyname | default("tinyproxy") }}
-    DisableViaHeader {{ tinyproxy_viaheader | default("False") }}
+    ViaProxyName {{ tinyproxy_viaproxyname | default('"tinyproxy"') }}
+    DisableViaHeader {{ tinyproxy_hide_viaheader | default("No") }}
     {% for connect_port in tinyproxy_connect_port %}
     ConnectPort {{ connect_port }}
     {% endfor %}
 
-    Listen {{ tinyproxy_listen_addr | default(local_ip_v4) }}
-    Bind {{ tinyproxy_bind_addr | default(ip_v4) }}
-
+    Listen {{ tinyproxy_listen_addr | default(ansible_default_ipv4['address']) }}
+    {% if tinyproxy_bind_addr is defined %}
+    Bind {{ tinyproxy_bind_addr }}
+    {% endif %}
     {% if tinyproxy_filtering is defined %}
     Filter {{ tinyproxy_filtering.filter }}
     FilterURLs {{ tinyproxy_filtering.urls }}
     FilterExtended {{ tinyproxy_filtering.extended }}
     FilterCaseSensitive {{ tinyproxy_filtering.case_sensitive }}
     FilterDefaultDeny {{ tinyproxy_filtering.default_deny }}
-    {% endif %}
-
+    {%- endif -%}
     {% if tinyproxy_upstream_proxies is defined %}
       {% for proxy in tinyproxy_upstream_proxies %}
     Upstream {{ proxy.address }} {% if proxy.url is defined %} {{ proxy.url }} {% endif %}
       {% endfor %}
-    {% endif %}
+    {%- endif -%}
