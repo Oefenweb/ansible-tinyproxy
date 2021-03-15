@@ -1,4 +1,4 @@
-# test file for tinyproxy
+# test file
 ---
 - hosts: localhost
   connection: local

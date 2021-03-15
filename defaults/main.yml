@@ -1,4 +1,4 @@
-# defaults file for tinyproxy
+# defaults file
 ---
 tinyproxy_install: []
 

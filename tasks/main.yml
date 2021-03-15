@@ -1,4 +1,4 @@
-# tasks file for tinyproxy
+# tasks file
 ---
 - name: include variables
   include_vars: "{{ item }}"

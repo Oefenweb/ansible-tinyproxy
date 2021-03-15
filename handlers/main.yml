@@ -1,4 +1,4 @@
-# handlers file for tinyproxy
+# handlers file
 ---
 - name: restart tinyproxy
   service:

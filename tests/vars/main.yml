@@ -1,4 +1,4 @@
-# vars file for tinyproxy
+# vars file
 ---
 tinyproxy_port: 3128
 tinyproxy_allow:
