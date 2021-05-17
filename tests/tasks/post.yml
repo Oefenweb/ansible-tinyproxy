@@ -1,6 +1,6 @@
 # post test file
 ---
-- name: post | install dependencies
+- name: install test dependencies
   apt:
     name:
       - curl
@@ -8,7 +8,7 @@
     update_cache: true
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
 
-- name: post | test installation
+- name: test tinyproxy installation
   command: >
     curl -sL --head https://www.google.com --proxy http://127.0.0.1:3128
   args:
@@ -16,3 +16,5 @@
   register: _result
   changed_when: false
   failed_when: _result.stdout.find('HTTP/1.0 200') == -1
+  tags:
+    - skip_ansible_lint
