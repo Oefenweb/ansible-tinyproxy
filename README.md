@@ -1,6 +1,7 @@
 ## tinyproxy
 
-[![Build Status](https://travis-ci.org/Oefenweb/ansible-tinyproxy.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-tinyproxy) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-tinyproxy-blue.svg)](https://galaxy.ansible.com/Oefenweb/tinyproxy)
+[![CI](https://github.com/Oefenweb/ansible-tinyproxy/workflows/CI/badge.svg)](https://github.com/Oefenweb/ansible-tinyproxy/actions?query=workflow%3ACI)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-tinyproxy-blue.svg)](https://galaxy.ansible.com/Oefenweb/tinyproxy)
 
 Set up [tinyproxy](https://tinyproxy.github.io/) in Debian-like systems.
 
