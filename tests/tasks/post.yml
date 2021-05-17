@@ -10,7 +10,7 @@
 
 - name: test tinyproxy installation
   command: >
-    curl -sL --head https://www.google.com --proxy http://127.0.0.1:3128
+    curl -sL --head https://www.google.com --proxy http://{{ ansible_lo['ipv4']['address'] }}:{{ tinyproxy_port }}
   args:
     warn: false
   register: _result
