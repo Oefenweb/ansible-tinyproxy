@@ -1,0 +1,14 @@
+# post test file
+---
+- name: install test dependencies
+  apt:
+    name:
+      - net-tools
+      - iproute2
+      - ethtool
+    state: "{{ apt_install_state | default('latest') }}"
+    update_cache: true
+    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+
+- name: (re)gather facts
+  action: setup
