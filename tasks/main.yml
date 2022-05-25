@@ -26,7 +26,7 @@
       apt:
         name: "{{ tinyproxy_install }}"
         state: "{{ apt_install_state | default('latest') }}"
-  when: not local_install
+  when: not tinyproxy_local_install
   tags:
     - tinyproxy
     - tinyproxy-install
@@ -41,9 +41,9 @@
     - name: install packages
       apt:
         deb: "{{ item.value }}"
-      loop: "{{ local_list_packages | dict2items | sort }}"
+      loop: "{{ tinyproxy_local_list_packages | dict2items | sort }}"
 
-  when: local_install
+  when: tinyproxy_local_install
   tags:
     - tinyproxy
     - tinyproxy-install
@@ -69,4 +69,3 @@
     - tinyproxy
     - tinyproxy-start-enable-service
     - tinyproxy-start-enable-service-systemd
-    

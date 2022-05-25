@@ -2,11 +2,4 @@
 ---
 tinyproxy_dependencies:
   - tinyproxy
-
-local_install: false
-local_list_packages:
-  # Keep order of packages
-  # Can use http-url or local path
-  init-system-helpers: ""
-  tinyproxy-bin: ""
-  tinyproxy: ""
+  
