@@ -10,3 +10,11 @@ tinyproxy_allow:
 tinyproxy_connect_port:
   - 443
   - 563
+
+local_install: false
+local_list_packages:
+  # Keep order of packages
+  # Can use http-url or local path
+  init-system-helpers: ""
+  tinyproxy-bin: ""
+  tinyproxy: ""
