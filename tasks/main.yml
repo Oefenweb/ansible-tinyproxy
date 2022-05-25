@@ -10,20 +10,40 @@
     - tinyproxy
     - tinyproxy-include-variables
 
-- name: install dependencies
-  apt:
-    name: "{{ tinyproxy_dependencies }}"
-    state: "{{ apt_install_state | default('latest') }}"
-    update_cache: true
-    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+- name: repository install tinyproxy
+  block:
+    - name: install dependencies
+      apt:
+        name: "{{ tinyproxy_dependencies }}"
+        state: "{{ apt_install_state | default('latest') }}"
+        update_cache: true
+        cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+      tags:
+        - tinyproxy
+        - tinyproxy-dependencies
+
+    - name: install additional
+      apt:
+        name: "{{ tinyproxy_install }}"
+        state: "{{ apt_install_state | default('latest') }}"
+  when: not local_install
   tags:
     - tinyproxy
-    - tinyproxy-dependencies
+    - tinyproxy-install
 
-- name: install additional
-  apt:
-    name: "{{ tinyproxy_install }}"
-    state: "{{ apt_install_state | default('latest') }}"
+- name: local install tinyproxy
+  block:
+    - name: remove old version
+      apt:
+        name: tinyproxy
+        state: absent
+
+    - name: install packages
+      apt:
+        deb: "{{ item.value }}"
+      loop: "{{ local_list_packages | dict2items | sort }}"
+
+  when: local_install
   tags:
     - tinyproxy
     - tinyproxy-install
@@ -49,3 +69,4 @@
     - tinyproxy
     - tinyproxy-start-enable-service
     - tinyproxy-start-enable-service-systemd
+    
