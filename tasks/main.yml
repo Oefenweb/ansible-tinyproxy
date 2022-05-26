@@ -41,7 +41,7 @@
     - name: install packages
       apt:
         deb: "{{ item.value }}"
-      loop: "{{ tinyproxy_local_list_packages | dict2items | sort }}"
+      loop: "{{ tinyproxy_local_list_packages | dict2items }}"
 
   when: tinyproxy_local_install
   tags:
