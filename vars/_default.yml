@@ -31,6 +31,9 @@ tinyproxy_tinyproxy_conf_preset:
     {% if tinyproxy_bind_addr is defined %}
     Bind {{ tinyproxy_bind_addr }}
     {% endif %}
+    {% if tinyproxy_auth_user is defined %}
+    BasicAuth {{ tinyproxy_auth_user }} {{ tinyproxy_auth_pass }}
+    {% endif %}
     {% if tinyproxy_filtering is defined %}
     Filter {{ tinyproxy_filtering.filter }}
     FilterURLs {{ tinyproxy_filtering.urls }}
