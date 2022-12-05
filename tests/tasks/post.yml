@@ -8,11 +8,9 @@
     update_cache: true
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
 
-- name: test tinyproxy installation
+- name: test tinyproxy installation  # noqa command-instead-of-module
   command: >
     curl -sL --head https://www.google.com --proxy http://{{ ansible_lo['ipv4']['address'] }}:{{ tinyproxy_port }}
-  args:
-    warn: false
   register: _result
   changed_when: false
   failed_when: _result.stdout.find('HTTP/1.0 200') == -1
