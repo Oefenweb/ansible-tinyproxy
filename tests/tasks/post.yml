@@ -1,7 +1,7 @@
 # post test file
 ---
 - name: install test dependencies
-  apt:
+  ansible.builtin.apt:
     name:
       - curl
     state: "{{ apt_install_state | default('latest') }}"
@@ -9,7 +9,7 @@
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
 
 - name: test tinyproxy installation  # noqa command-instead-of-module
-  command: >
+  ansible.builtin.command: >
     curl -sL --head https://www.google.com --proxy http://{{ ansible_lo['ipv4']['address'] }}:{{ tinyproxy_port }}
   register: _result
   changed_when: false

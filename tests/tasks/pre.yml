@@ -1,7 +1,7 @@
 # post test file
 ---
 - name: install test dependencies
-  apt:
+  ansible.builtin.apt:
     name:
       - net-tools
       - iproute2
@@ -11,4 +11,4 @@
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
 
 - name: (re)gather facts
-  action: setup
+  action: ansible.builtin.setup

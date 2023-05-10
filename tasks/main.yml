@@ -1,7 +1,7 @@
 # tasks file
 ---
 - name: include variables
-  include_vars: "{{ item }}"
+  ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "_{{ ansible_distribution_release }}.yml"
     - "_{{ ansible_distribution | lower }}.yml"
@@ -12,7 +12,7 @@
     - tinyproxy-include-variables
 
 - name: install dependencies
-  apt:
+  ansible.builtin.apt:
     name: "{{ tinyproxy_dependencies }}"
     state: "{{ apt_install_state | default('latest') }}"
     update_cache: true
@@ -23,7 +23,7 @@
     - tinyproxy-dependencies
 
 - name: install additional
-  apt:
+  ansible.builtin.apt:
     name: "{{ tinyproxy_install }}"
     state: "{{ apt_install_state | default('latest') }}"
   tags:
@@ -32,7 +32,7 @@
     - tinyproxy-install
 
 - name: update configuration file
-  template:
+  ansible.builtin.template:
     src: etc/tinyproxy.conf.j2
     dest: "{{ tinyproxy_configuration_file }}"
     owner: root
@@ -45,7 +45,7 @@
     - tinyproxy-configuration
 
 - name: start and enable service
-  service:
+  ansible.builtin.service:
     name: tinyproxy
     state: "{{ service_default_state | default('started') }}"
     enabled: "{{ service_default_enabled | default(true) | bool }}"
@@ -58,7 +58,7 @@
 
 # TODO: Remove when support for Ubuntu 14.04 is dropped
 - name: start and enable service
-  service:
+  ansible.builtin.service:
     name: tinyproxy
     state: "{{ service_default_state | default('started') }}"
     enabled: "{{ service_default_enabled | default(true) | bool }}"
