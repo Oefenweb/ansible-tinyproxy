@@ -31,17 +31,16 @@ None
 ---
 - hosts: all
   roles:
-    - tinyproxy
+    - oefenweb.tinyproxy
 ```
 
 ##### Advance
 
-```
 ```yaml
 ---
 - hosts: all
   roles:
-    - tinyproxy
+    - oefenweb.tinyproxy
   vars:
     tinyproxy_tinyproxy_conf:
       - |
