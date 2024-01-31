@@ -1,6 +1,6 @@
 # vars file
 ---
-tinyproxy_configuration_file: /etc/tinyproxy.conf
+tinyproxy_configuration_file: /etc/tinyproxy/tinyproxy.conf
 
 tinyproxy_tinyproxy_conf_preset:
   - |
