@@ -3,8 +3,8 @@
 tinyproxy_configuration_file: /etc/tinyproxy/tinyproxy.conf
 
 tinyproxy_allow:
-  - "{{ ansible_lo['ipv4']['address'] }}"
-  - '::1'
+  - "{{ ansible_facts['lo']['ipv4']['address'] }}"
+  - "{{ ansible_facts['lo']['ipv6']['address'] }}"
 tinyproxy_connect_port: []
 
 tinyproxy_tinyproxy_conf_preset:
