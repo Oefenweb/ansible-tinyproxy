@@ -1,4 +1,4 @@
-# {{ ansible_managed }}
+{{ ansible_managed | comment }}
 
 {% for line in tinyproxy_tinyproxy_conf | default([]) %}
 {{ line }}
