@@ -1,7 +1,17 @@
 # handlers file
 ---
-- name: restart tinyproxy
-  ansible.builtin.service:
-    name: tinyproxy
-    state: restarted
-  when: service_default_state | default('started') == 'started'
+- name: debug
+  block:
+    - name: restart tinyproxy
+      ansible.builtin.service:
+        name: tinyproxy
+        state: restarted
+      when: service_default_state | default('started') == 'started'
+
+  rescue:
+
+    - name: trace
+      ansible.builtin.shell: >
+        systemctl status tinyproxy.service && journalctl -xe
+      changed_when: true
+      failed_when: true

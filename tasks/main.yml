@@ -53,7 +53,7 @@
     name: tinyproxy
     state: "{{ service_default_state | default('started') }}"
     enabled: "{{ service_default_enabled | default(true) | bool }}"
-  when: ansible_service_mgr == 'systemd'
+  when: ansible_facts['service_mgr'] == 'systemd'
   tags:
     - configuration
     - tinyproxy
@@ -67,7 +67,7 @@
     state: "{{ service_default_state | default('started') }}"
     enabled: "{{ service_default_enabled | default(true) | bool }}"
     pattern: /usr/sbin/tinyproxy
-  when: ansible_service_mgr != 'systemd'
+  when: ansible_facts['service_mgr'] != 'systemd'
   tags:
     - configuration
     - tinyproxy
