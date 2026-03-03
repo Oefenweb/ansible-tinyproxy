@@ -1,6 +1,11 @@
 # tasks file
 ---
 - name: include variables
+  ansible.builtin.debug:
+    msg: "{{ ansible_facts }}"
+  failed_when: true
+
+- name: include variables
   ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "_{{ ansible_distribution_release }}.yml"
@@ -37,7 +42,7 @@
     dest: "{{ tinyproxy_configuration_file }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   notify: restart tinyproxy
   tags:
     - configuration
