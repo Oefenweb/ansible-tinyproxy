@@ -3,13 +3,12 @@
 - name: include variables
   ansible.builtin.debug:
     msg: "{{ ansible_facts }}"
-  failed_when: true
 
 - name: include variables
   ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
-    - "_{{ ansible_distribution_release }}.yml"
-    - "_{{ ansible_distribution | lower }}.yml"
+    - "_{{ ansible_facts['distribution_release'] }}.yml"
+    - "_{{ ansible_facts['distribution'] | lower }}.yml"
     - _default.yml
   tags:
     - configuration
