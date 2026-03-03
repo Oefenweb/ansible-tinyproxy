@@ -1,10 +1,6 @@
 # tasks file
 ---
 - name: include variables
-  ansible.builtin.debug:
-    msg: "{{ ansible_facts }}"
-
-- name: include variables
   ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "_{{ ansible_facts['distribution_release'] }}.yml"
