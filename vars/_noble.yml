@@ -1,0 +1,28 @@
+# vars file
+---
+tinyproxy_configuration_file: /etc/tinyproxy/tinyproxy.conf
+
+tinyproxy_allow:
+  - "{{ ansible_facts['lo']['ipv4']['address'] }}"
+  - "{{ ansible_facts['lo']['ipv6'][0]['address'] }}"
+tinyproxy_connect_port: []
+
+tinyproxy_tinyproxy_conf_preset:
+  - |
+    User tinyproxy
+    Group tinyproxy
+    Port {{ tinyproxy_port }}
+    Timeout 600
+    DefaultErrorFile "/usr/share/tinyproxy/default.html"
+    StatFile "/usr/share/tinyproxy/stats.html"
+    LogFile "/var/log/tinyproxy/tinyproxy.log"
+    LogLevel Info
+    PidFile "/run/tinyproxy/tinyproxy.pid"
+    MaxClients 100
+    {% for allow in tinyproxy_allow %}
+    Allow {{ allow }}
+    {% endfor %}
+    ViaProxyName "tinyproxy"
+    {% for connect_port in tinyproxy_connect_port %}
+    ConnectPort {{ connect_port }}
+    {% endfor %}

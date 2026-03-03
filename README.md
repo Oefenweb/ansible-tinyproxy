@@ -16,7 +16,7 @@ None
 * `tinyproxy_tinyproxy_conf`: [see: `defaults/main.yml`]: List of lines to be added to `/etc/tinyproxy.conf`
 
 * `tinyproxy_port`: [default: `8888`]: The port which tinyproxy will listen on
-* `tinyproxy_allow`: [default: `["{{ ansible_lo['ipv4']['address'] }}"]`]: Customization of authorization controls. If there are any access controls then the default action is to `DENY`. Otherwise, the default action is `ALLOW`. The order of the controls are important
+* `tinyproxy_allow`: [default: `["{{ ansible_facts['lo']['ipv4']['address'] }}"]`]: Customization of authorization controls. If there are any access controls then the default action is to `DENY`. Otherwise, the default action is `ALLOW`. The order of the controls are important
 * `tinyproxy_connect_port`: [default: `[443, 563]`]: This is a list of ports allowed when the `CONNECT` method is used. To disable the `CONNECT` method altogether, set the value to `0`.  If no item is found, all ports are allowed
 
 #### Dependencies
@@ -67,8 +67,8 @@ None
         {% endfor %}
     tinyproxy_port: 3128
     tinyproxy_allow:
-      - "{{ ansible_lo['ipv4']['address'] }}"
-      - "{{ ansible_default_ipv4['address'] }}"
+      - "{{ ansible_facts['lo']['ipv4']['address'] }}"
+      - "{{ ansible_facts['default_ipv4']['address'] }}"
 ```
 
 #### License

@@ -3,8 +3,8 @@
 - name: include variables
   ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
-    - "_{{ ansible_distribution_release }}.yml"
-    - "_{{ ansible_distribution | lower }}.yml"
+    - "_{{ ansible_facts['distribution_release'] }}.yml"
+    - "_{{ ansible_facts['distribution'] | lower }}.yml"
     - _default.yml
   tags:
     - configuration
@@ -37,7 +37,7 @@
     dest: "{{ tinyproxy_configuration_file }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   notify: restart tinyproxy
   tags:
     - configuration
@@ -49,7 +49,7 @@
     name: tinyproxy
     state: "{{ service_default_state | default('started') }}"
     enabled: "{{ service_default_enabled | default(true) | bool }}"
-  when: ansible_service_mgr == 'systemd'
+  when: ansible_facts['service_mgr'] == 'systemd'
   tags:
     - configuration
     - tinyproxy
@@ -63,7 +63,7 @@
     state: "{{ service_default_state | default('started') }}"
     enabled: "{{ service_default_enabled | default(true) | bool }}"
     pattern: /usr/sbin/tinyproxy
-  when: ansible_service_mgr != 'systemd'
+  when: ansible_facts['service_mgr'] != 'systemd'
   tags:
     - configuration
     - tinyproxy
